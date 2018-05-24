@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Item: NSObject {
+class Item: Encodable, Decodable {
 
     let title: String
     var done: Bool

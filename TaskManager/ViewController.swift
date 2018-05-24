@@ -12,10 +12,9 @@ class ViewController: UITableViewController {
     
     var itemsArray = [Item]()
     
-    var defaults = UserDefaults.standard
+    //var defaults = UserDefaults.standard
     
-  
-    
+   let dataFilePath = FileManager.default.urls(for:.documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
    
     
     override func viewDidLoad() {
@@ -24,21 +23,22 @@ class ViewController: UITableViewController {
       
         // Do any additional setup after loading the view, typically from a nib.
         
-        let item = Item(title: "Apples")
-        let item1 = Item(title: "Bananas")
-        let item2 = Item(title: "Cherries")
-        let item3 = Item(title: "Strawberries")
-        
-        itemsArray.append(item)
-        itemsArray.append(item1)
-        itemsArray.append(item2)
-        itemsArray.append(item3)
+//        let item = Item(title: "Apples")
+//        let item1 = Item(title: "Bananas")
+//        let item2 = Item(title: "Cherries")
+//        let item3 = Item(title: "Strawberries")
+//
+//        itemsArray.append(item)
+//        itemsArray.append(item1)
+//        itemsArray.append(item2)
+//        itemsArray.append(item3)
 
 //        if let itemsDef = defaults.array(forKey: "itemsArray") as? [Item] {
 //            self.itemsArray = itemsDef
 //        }
-        
-        
+         loadItems()
+     
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,9 +60,8 @@ class ViewController: UITableViewController {
                 
                 let newItem = Item(title: text)
                 self.itemsArray.append(newItem)
-             //   self.defaults.setValue(self.itemsArray, forKey: "itemsArray")
 
-                self.tableView.reloadData()
+                self.saveItems()
                 
 
             }
@@ -79,6 +78,43 @@ class ViewController: UITableViewController {
         alert.addAction(action)
         
         present(alert, animated: true, completion: nil)
+        
+    }
+    
+    //MARK: - Data conversion using NSCoder
+    
+    func saveItems(){
+        
+        let encoder = PropertyListEncoder()
+        
+        do{
+            let data = try encoder.encode(itemsArray)
+            
+            try data.write(to: dataFilePath!)
+            
+        }catch{
+            
+            print("error saving data: \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func loadItems(){
+        
+        if let data = try? Data(contentsOf: dataFilePath!){
+            
+            let decoder = PropertyListDecoder()
+            do{
+                itemsArray = try decoder.decode([Item].self, from: data)
+
+            }catch{
+                
+                print("Error decoding data:\(error)")
+                
+            }
+        }
+        
         
     }
     
@@ -108,9 +144,9 @@ class ViewController: UITableViewController {
         
         let item = itemsArray[indexPath.row]
         
-         item.done = !item.done
+        item.done = !item.done
         
-        self.tableView.reloadData()
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
