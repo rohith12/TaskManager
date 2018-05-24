@@ -12,8 +12,15 @@ class ViewController: UITableViewController {
     
     var items: [String] = ["Apples","Bananas","Cherries","Strawberries"]
     
+    var defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let itemsDef = defaults.array(forKey: "itemsArray") as? [String] {
+            items = itemsDef
+        }
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -34,6 +41,7 @@ class ViewController: UITableViewController {
             
             if let text = textfield.text{
                 self.items.append(text)
+                self.defaults.setValue(self.items, forKey: "itemsArray")
                 self.tableView.reloadData()
             }
             
