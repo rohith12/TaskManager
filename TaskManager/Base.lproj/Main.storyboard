@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tasks-->
+        <!--Todey-->
         <scene sceneID="imY-tR-VZ8">
             <objects>
                 <tableViewController id="FIN-hO-bkS" customClass="ViewController" customModule="TaskManager" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +31,14 @@
                             <outlet property="delegate" destination="FIN-hO-bkS" id="XQg-1i-nYg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tasks" id="69z-J7-5Zr"/>
+                    <navigationItem key="navigationItem" title="Todey" id="69z-J7-5Zr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lFJ-x4-v3t">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="addItem:" destination="FIN-hO-bkS" id="OtA-uz-WWv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yUt-tr-pg5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
