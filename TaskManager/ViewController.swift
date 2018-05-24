@@ -10,18 +10,35 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    var items: [String] = ["Apples","Bananas","Cherries","Strawberries"]
+    var itemsArray = [Item]()
     
     var defaults = UserDefaults.standard
+    
+  
+    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let itemsDef = defaults.array(forKey: "itemsArray") as? [String] {
-            items = itemsDef
-        }
-        
+      
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let item = Item(title: "Apples")
+        let item1 = Item(title: "Bananas")
+        let item2 = Item(title: "Cherries")
+        let item3 = Item(title: "Strawberries")
+        
+        itemsArray.append(item)
+        itemsArray.append(item1)
+        itemsArray.append(item2)
+        itemsArray.append(item3)
+
+//        if let itemsDef = defaults.array(forKey: "itemsArray") as? [Item] {
+//            self.itemsArray = itemsDef
+//        }
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,9 +57,14 @@ class ViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
             if let text = textfield.text{
-                self.items.append(text)
-                self.defaults.setValue(self.items, forKey: "itemsArray")
+                
+                let newItem = Item(title: text)
+                self.itemsArray.append(newItem)
+             //   self.defaults.setValue(self.itemsArray, forKey: "itemsArray")
+
                 self.tableView.reloadData()
+                
+
             }
             
         }
@@ -64,7 +86,7 @@ class ViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return items.count
+        return itemsArray.count
         
     }
     
@@ -72,22 +94,23 @@ class ViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = items[indexPath.row]
+        let item = itemsArray[indexPath.row]
+        
+        cell.textLabel?.text = item.title
+        
+        cell.accessoryType = item.done ? .checkmark : .none
         
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-            
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            
-        }else{
-
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            
-        }
+        
+        let item = itemsArray[indexPath.row]
+        
+         item.done = !item.done
+        
+        self.tableView.reloadData()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
