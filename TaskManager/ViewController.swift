@@ -20,22 +20,6 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      
-        // Do any additional setup after loading the view, typically from a nib.
-        
-//        let item = Item(title: "Apples")
-//        let item1 = Item(title: "Bananas")
-//        let item2 = Item(title: "Cherries")
-//        let item3 = Item(title: "Strawberries")
-//
-//        itemsArray.append(item)
-//        itemsArray.append(item1)
-//        itemsArray.append(item2)
-//        itemsArray.append(item3)
-
-//        if let itemsDef = defaults.array(forKey: "itemsArray") as? [Item] {
-//            self.itemsArray = itemsDef
-//        }
          loadItems()
      
 
