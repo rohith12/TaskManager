@@ -10,13 +10,18 @@ import UIKit
 
 class Item: Encodable, Decodable {
 
-    let title: String
+    var title: String!
     var done: Bool
     
-    init(title: String) {
+    init() {
+        self.done = false
+    }
+    
+    convenience init(title: String) {
+        
+        self.init()
         
         self.title = title
-        self.done = false
         
     }
     
